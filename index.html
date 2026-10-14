@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kynix Super App</title>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: #161b22;
+      border-left: 1px solid #30363d;
+      border-right: 1px solid #30363d;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Top Header */
+    .top-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #161b22;
+      border-bottom: 1px solid #21262d;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .logo-text {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .search-bar {
+      flex: 1;
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #8b949e;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background-color: #ef4444;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Scrollable Content */
+    .main-content {
+      padding: 16px;
+      flex: 1;
+      padding-bottom: 80px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #8b949e;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+
+    /* Quick Access Grid */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .grid-item {
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 14px;
+      padding: 10px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .grid-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .grid-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #c9d1d9;
+      text-align: center;
+    }
+
+    /* Grid Theme Colors */
+    .search-theme { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+    .watch-theme { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .feed-theme { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+    .moments-theme { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+    .chats-theme { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+
+    /* Stories Section */
+    .stories-container {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #8b949e;
+    }
+
+    .story-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid #38bdf8;
+      padding: 2px;
+    }
+
+    .story-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Post Composer */
+    .composer-card {
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 20px;
+    }
+
+    .composer-top {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .composer-top img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+    }
+
+    .composer-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #8b949e;
+      font-size: 13px;
+    }
+
+    .composer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #30363d;
+      padding-top: 8px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 12px;
+      color: #8b949e;
+      font-size: 13px;
+    }
+
+    .post-btn {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Feed Card */
+    .feed-card {
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .feed-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .feed-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .feed-user h4 {
+      font-size: 14px;
+      color: #f0f6fc;
+    }
+
+    .feed-user p {
+      font-size: 11px;
+      color: #8b949e;
+    }
+
+    .feed-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #c9d1d9;
+      margin-bottom: 12px;
+    }
+
+    .feed-actions {
+      display: flex;
+      justify-content: space-between;
+      color: #8b949e;
+      font-size: 13px;
+      border-top: 1px solid #30363d;
+      padding-top: 10px;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #161b22;
+      border-top: 1px solid #30363d;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: #8b949e;
+      text-decoration: none;
+      font-size: 10px;
+    }
+
+    .nav-item.active {
+      color: #38bdf8;
+    }
+
+    .nav-item i {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="brand-logo">
+        <div class="logo-badge">K</div>
+        <div class="logo-text">KYNIX</div>
+      </div>
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search Kynix...">
+      </div>
+      <div class="icon-btn">
+        <i class="fa-solid fa-comment-dots"></i>
+        <span class="badge">3</span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Quick Access Hub -->
+      <div class="section-title">QUICK ACCESS HUB</div>
+      <div class="quick-grid">
+        <a href="#" class="grid-item">
+          <div class="grid-icon search-theme"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <span class="grid-label">Search</span>
+        </a>
+        <a href="#" class="grid-item">
+          <div class="grid-icon watch-theme"><i class="fa-solid fa-circle-play"></i></div>
+          <span class="grid-label">Watch</span>
+        </a>
+        <a href="#" class="grid-item">
+          <div class="grid-icon feed-theme"><i class="fa-solid fa-hashtag"></i></div>
+          <span class="grid-label">Feed</span>
+        </a>
+        <a href="#" class="grid-item">
+          <div class="grid-icon moments-theme"><i class="fa-solid fa-camera"></i></div>
+          <span class="grid-label">Moments</span>
+        </a>
+        <a href="#" class="grid-item">
+          <div class="grid-icon chats-theme"><i class="fa-solid fa-comments"></i></div>
+          <span class="grid-label">Chats</span>
+        </a>
+      </div>
+
+      <!-- Stories -->
+      <div class="stories-container">
+        <div class="story-item">
+          <div class="story-avatar"><img src="https://i.pravatar.cc/100?img=33" alt="You"></div>
+          <span>Your Story</span>
+        </div>
+        <div class="story-item">
+          <div class="story-avatar"><img src="https://i.pravatar.cc/100?img=12" alt="Rohan"></div>
+          <span>Rohan M.</span>
+        </div>
+        <div class="story-item">
+          <div class="story-avatar"><img src="https://i.pravatar.cc/100?img=47" alt="Priya"></div>
+          <span>Priya K.</span>
+        </div>
+        <div class="story-item">
+          <div class="story-avatar"><img src="https://i.pravatar.cc/100?img=60" alt="Dev"></div>
+          <span>Dev Tech</span>
+        </div>
+      </div>
+
+      <!-- Post Composer -->
+      <div class="composer-card">
+        <div class="composer-top">
+          <img src="https://i.pravatar.cc/100?img=33" alt="User">
+          <input type="text" class="composer-input" placeholder="What's on your mind? (Photo, video or post...)">
+        </div>
+        <div class="composer-actions">
+          <div class="action-btns">
+            <span><i class="fa-regular fa-image"></i> Photo</span>
+            <span><i class="fa-solid fa-video"></i> Video</span>
+          </div>
+          <button class="post-btn">Post</button>
+        </div>
+      </div>
+
+      <!-- Feed Post -->
+      <div class="feed-card">
+        <div class="feed-header">
+          <img src="https://i.pravatar.cc/100?img=11" alt="Tech">
+          <div class="feed-user">
+            <h4>Tech Insider India <i class="fa-solid fa-circle-check" style="color: #38bdf8;"></i></h4>
+            <p>@techinsider • 15m ago</p>
+          </div>
+        </div>
+        <div class="feed-text">
+          Welcome to the new clean Kynix interface! Category access at the top makes switching between Watch, Feed, and Chats instant. 🚀⚡
+        </div>
+        <div class="feed-actions">
+          <span><i class="fa-regular fa-heart"></i> 1.2k</span>
+          <span><i class="fa-regular fa-comment"></i> 340</span>
+          <span><i class="fa-solid fa-retweet"></i> 85</span>
+          <span><i class="fa-regular fa-bookmark"></i></span>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a href="#" class="nav-item"><i class="fa-solid fa-layer-group"></i><span>Shorts</span></a>
+      <a href="#" class="nav-item"><i class="fa-solid fa-circle-plus" style="font-size:24px; color:#38bdf8;"></i><span>Create</span></a>
+      <a href="#" class="nav-item"><i class="fa-regular fa-comments"></i><span>Chats</span></a>
+      <a href="#" class="nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+    </nav>
+
+  </div>
+<script>
+    const mainContent = document.querySelector('.main-content');
+
+    // Complete Profile Data Object
+    let currentProfile = {
+      name: "Anmol Gupta",
+      handle: "@anmol_kynix • Founder & Creator",
+      bio: "Building the future with Kynix Super App 🚀 | Developer & Tech Enthusiast",
+      dob: "15 August",
+      location: "Banda, UP",
+      phone: "+91 9876543210"
+    };
+
+    // 1. Home Feed HTML
+    const homeScreenHTML = mainContent.innerHTML;
+
+    // 2. Chat List Screen HTML
+    const chatScreenHTML = `
+      <div class="section-title">RECENT MESSAGES</div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="chat-item" onclick="openChatBox('Rohan M.', 'https://i.pravatar.cc/100?img=12')" style="display: flex; align-items: center; gap: 12px; background: #21262d; padding: 12px; border-radius: 14px; border: 1px solid #30363d; cursor: pointer;">
+          <img src="https://i.pravatar.cc/100?img=12" style="width: 46px; height: 46px; border-radius: 50%;">
+          <div style="flex: 1;">
+            <h4 style="font-size: 14px; color: #f0f6fc;">Rohan M.</h4>
+            <p style="font-size: 12px; color: #8b949e;">Hey, Kynix App ka test kaisa chal raha hai?</p>
+          </div>
+          <span style="font-size: 10px; color: #38bdf8;">10:45 AM</span>
+        </div>
+
+        <div class="chat-item" onclick="openChatBox('Priya K.', 'https://i.pravatar.cc/100?img=47')" style="display: flex; align-items: center; gap: 12px; background: #21262d; padding: 12px; border-radius: 14px; border: 1px solid #30363d; cursor: pointer;">
+          <img src="https://i.pravatar.cc/100?img=47" style="width: 46px; height: 46px; border-radius: 50%;">
+          <div style="flex: 1;">
+            <h4 style="font-size: 14px; color: #f0f6fc;">Priya K.</h4>
+            <p style="font-size: 12px; color: #8b949e;">New design upload kar diya hai 👍</p>
+          </div>
+          <span style="font-size: 10px; color: #8b949e;">Yesterday</span>
+        </div>
+      </div>
+    `;
+
+    // 3. Shorts & Feed Screen HTML
+    const shortsScreenHTML = `
+      <div class="section-title">KYNIX SHORTS & FEEDS</div>
+      
+      <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; padding: 12px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <img src="https://i.pravatar.cc/100?img=33" style="width: 36px; height: 36px; border-radius: 50%;">
+          <div>
+            <h4 style="font-size: 13px; color: #f0f6fc;">${currentProfile.name}</h4>
+            <p style="font-size: 10px; color: #8b949e;">2 hours ago • Public</p>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: #c9d1d9; margin-bottom: 10px;">Kynix Super App ka prototype successfully design ho gaya hai! 🚀</p>
+        <div style="background: #30363d; height: 160px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #38bdf8; font-size: 24px;">
+          <i class="fa-solid fa-image"></i>
+        </div>
+      </div>
+    `;
+
+    // 4. Create Post Screen HTML
+    const createScreenHTML = `
+      <div class="section-title">CREATE NEW POST</div>
+      <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; padding: 16px;">
+        <textarea id="postText" placeholder="What's on your mind, ${currentProfile.name}?" style="width: 100%; height: 100px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 12px; color: #fff; font-size: 13px; outline: none; resize: none; margin-bottom: 12px;"></textarea>
+        
+        <div style="border: 2px dashed #30363d; border-radius: 12px; padding: 20px; text-align: center; color: #8b949e; margin-bottom: 16px; font-size: 13px;">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size: 24px; color: #38bdf8; margin-bottom: 8px;"></i>
+          <p>Click to upload photo or video</p>
+        </div>
+
+        <button onclick="alert('Post successfully published to Kynix Feed!'); loadShorts();" style="background: #2563eb; color: #fff; border: none; padding: 10px; border-radius: 14px; width: 100%; font-weight: 600; cursor: pointer;">Publish Post</button>
+      </div>
+    `;
+
+    // 5. Watch Screen HTML
+    const watchScreenHTML = `
+      <div class="section-title">KYNIX WATCH (VIDEOS)</div>
+      <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; overflow: hidden; margin-bottom: 16px;">
+        <div style="background: #30363d; height: 180px; display: flex; align-items: center; justify-content: center; color: #38bdf8; font-size: 32px;">
+          <i class="fa-solid fa-circle-play"></i>
+        </div>
+        <div style="padding: 12px;">
+          <h4 style="font-size: 14px; color: #f0f6fc; margin-bottom: 4px;">Kynix Creator Spotlight - Episode 1</h4>
+          <p style="font-size: 11px; color: #8b949e;">Uploaded by Kynix Official • 4.2k views</p>
+        </div>
+      </div>
+    `;
+
+    // 6. User Profile Page Function
+    window.loadProfile = function() {
+      mainContent.innerHTML = `
+        <div class="section-title">MY PROFILE</div>
+        
+        <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: center;">
+          <img src="https://i.pravatar.cc/100?img=33" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #2563eb; margin-bottom: 10px;">
+          <h3 style="color: #f0f6fc; font-size: 18px; margin-bottom: 2px;">${currentProfile.name}</h3>
+          <p style="color: #38bdf8; font-size: 12px; margin-bottom: 10px;">${currentProfile.handle}</p>
+          <p style="color: #8b949e; font-size: 12px; margin-bottom: 12px;">${currentProfile.bio}</p>
+
+          <div style="display: flex; justify-content: center; gap: 16px; font-size: 12px; color: #8b949e; margin-bottom: 16px; background: #161b22; padding: 10px; border-radius: 10px;">
+            <div><i class="fa-solid fa-cake-candles" style="color: #38bdf8;"></i> ${currentProfile.dob}</div>
+            <div><i class="fa-solid fa-location-dot" style="color: #38bdf8;"></i> ${currentProfile.location}</div>
+            <div><i class="fa-solid fa-phone" style="color: #38bdf8;"></i> ${currentProfile.phone}</div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-around; background: #161b22; padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+            <div>
+              <h4 style="color: #f0f6fc; font-size: 14px;">12</h4>
+              <span style="color: #8b949e; font-size: 11px;">Posts</span>
+            </div>
+            <div style="border-left: 1px solid #30363d; border-right: 1px solid #30363d; padding: 0 16px;">
+              <h4 style="color: #f0f6fc; font-size: 14px;">1.2k</h4>
+              <span style="color: #8b949e; font-size: 11px;">Followers</span>
+            </div>
+            <div>
+              <h4 style="color: #f0f6fc; font-size: 14px;">450</h4>
+              <span style="color: #8b949e; font-size: 11px;">Following</span>
+            </div>
+          </div>
+
+          <button onclick="openEditProfile()" style="background: #30363d; color: #f0f6fc; border: 1px solid #8b949e; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; width: 100%;">Edit Profile</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <button onclick="loadLegal()" style="flex: 1; background: #21262d; border: 1px solid #30363d; color: #38bdf8; padding: 10px; border-radius: 12px; font-size: 12px; cursor: pointer;"><i class="fa-solid fa-shield-halved"></i> Terms & Privacy</button>
+        </div>
+      `;
+    };
+
+    // 7. Open Edit Profile Screen (With DOB, Location, Phone)
+    window.openEditProfile = function() {
+      mainContent.innerHTML = `
+        <div class="section-title">EDIT PROFILE</div>
+        <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; padding: 16px;">
+          
+          <label style="color: #8b949e; font-size: 11px; display: block; margin-bottom: 4px;">NAME</label>
+          <input type="text" id="editName" value="${currentProfile.name}" style="width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; color: #fff; font-size: 13px; outline: none; margin-bottom: 10px;">
+
+          <label style="color: #8b949e; font-size: 11px; display: block; margin-bottom: 4px;">BIO</label>
+          <textarea id="editBio" style="width: 100%; height: 60px; background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; color: #fff; font-size: 13px; outline: none; resize: none; margin-bottom: 10px;">${currentProfile.bio}</textarea>
+
+          <label style="color: #8b949e; font-size: 11px; display: block; margin-bottom: 4px;">DATE OF BIRTH (DOB)</label>
+          <input type="text" id="editDob" value="${currentProfile.dob}" style="width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; color: #fff; font-size: 13px; outline: none; margin-bottom: 10px;">
+
+          <label style="color: #8b949e; font-size: 11px; display: block; margin-bottom: 4px;">LOCATION</label>
+          <input type="text" id="editLocation" value="${currentProfile.location}" style="width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; color: #fff; font-size: 13px; outline: none; margin-bottom: 10px;">
+
+          <label style="color: #8b949e; font-size: 11px; display: block; margin-bottom: 4px;">PHONE NUMBER</label>
+          <input type="text" id="editPhone" value="${currentProfile.phone}" style="width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 10px; color: #fff; font-size: 13px; outline: none; margin-bottom: 16px;">
+
+          <div style="display: flex; gap: 10px;">
+            <button onclick="saveProfile()" style="flex: 1; background: #2563eb; color: #fff; border: none; padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer;">Save Changes</button>
+            <button onclick="loadProfile()" style="background: #30363d; color: #f0f6fc; border: none; padding: 10px 16px; border-radius: 12px; font-weight: 600; cursor: pointer;">Cancel</button>
+          </div>
+        </div>
+      `;
+    };
+
+    // 8. Save Profile Changes Function
+    window.saveProfile = function() {
+      const newName = document.getElementById('editName').value;
+      const newBio = document.getElementById('editBio').value;
+      const newDob = document.getElementById('editDob').value;
+      const newLocation = document.getElementById('editLocation').value;
+      const newPhone = document.getElementById('editPhone').value;
+
+      if (newName.trim() !== '') currentProfile.name = newName;
+      if (newBio.trim() !== '') currentProfile.bio = newBio;
+      if (newDob.trim() !== '') currentProfile.dob = newDob;
+      if (newLocation.trim() !== '') currentProfile.location = newLocation;
+      if (newPhone.trim() !== '') currentProfile.phone = newPhone;
+
+      alert('Profile updated successfully with DOB & Location!');
+      loadProfile();
+    };
+
+    // 9. Legal & Privacy Policy Page
+    const legalScreenHTML = `
+      <div class="section-title">LEGAL & PRIVACY POLICY</div>
+      <div style="background: #21262d; border: 1px solid #30363d; border-radius: 16px; padding: 16px; font-size: 13px; color: #c9d1d9; line-height: 1.6;">
+        <h4 style="color: #f0f6fc; margin-bottom: 8px;">1. Terms & Conditions</h4>
+        <p style="margin-bottom: 12px; color: #8b949e; font-size: 12px;">Kynix Super App use karne ke liye aapki umar minimum 13 saal honi chahiye. Is platform par kisi bhi tarah ka galat ya copyright content share karne ki zimmedari user ki hogi, App Owner (Anmol Gupta) ki nahi.</p>
+        
+        <h4 style="color: #f0f6fc; margin-bottom: 8px;">2. Privacy Policy</h4>
+        <p style="margin-bottom: 12px; color: #8b949e; font-size: 12px;">Aapka data aur personal chats end-to-end secure rakhe jaate hain. Hum aapki permission ke bina kisi third-party ko data share nahi karte.</p>
+
+        <button onclick="loadHome()" style="background: #2563eb; color: #fff; border: none; padding: 8px 16px; border-radius: 14px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 10px;">I Agree & Continue</button>
+      </div>
+    `;
+
+    // Chat Box Functions
+    window.openChatBox = function(name, avatar) {
+      mainContent.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid #30363d; padding-bottom: 10px;">
+          <button onclick="loadChatList()" style="background: transparent; border: none; color: #38bdf8; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-arrow-left"></i></button>
+          <img src="${avatar}" style="width: 36px; height: 36px; border-radius: 50%;">
+          <h4 style="font-size: 15px; color: #f0f6fc;">${name}</h4>
+        </div>
+
+        <div id="msgContainer" style="display: flex; flex-direction: column; gap: 10px; min-height: 280px; max-height: 320px; overflow-y: auto; margin-bottom: 16px;">
+          <div style="align-self: flex-start; background: #21262d; padding: 10px 14px; border-radius: 14px; max-width: 80%; font-size: 13px;">
+            Hey, Kynix App ka test kaisa chal raha hai?
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="chatMsgInput" placeholder="Type a message..." style="flex: 1; background: #21262d; border: 1px solid #30363d; padding: 10px 14px; border-radius: 20px; color: #fff; outline: none; font-size: 13px;">
+          <button onclick="sendChatMessage()" style="background: #2563eb; color: #fff; border: none; padding: 0 16px; border-radius: 20px; cursor: pointer;"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      `;
+    };
+
+    window.sendChatMessage = function() {
+      const input = document.getElementById('chatMsgInput');
+      const container = document.getElementById('msgContainer');
+      if (input.value.trim() !== '') {
+        const newMsg = document.createElement('div');
+        newMsg.style.cssText = 'align-self: flex-end; background: #2563eb; color: #fff; padding: 10px 14px; border-radius: 14px; max-width: 80%; font-size: 13px;';
+        newMsg.innerText = input.value;
+        container.appendChild(newMsg);
+        input.value = '';
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    window.loadChatList = function() { mainContent.innerHTML = chatScreenHTML; };
+    window.loadHome = function() { mainContent.innerHTML = homeScreenHTML; };
+    window.loadShorts = function() { mainContent.innerHTML = shortsScreenHTML; };
+    window.loadCreate = function() { mainContent.innerHTML = createScreenHTML; };
+    window.loadLegal = function() { mainContent.innerHTML = legalScreenHTML; };
+
+    // Navigation Click Handlers
+    document.querySelectorAll('.grid-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const label = item.querySelector('.grid-label').innerText.trim();
+        if (label === 'Chats') {
+          loadChatList();
+        } else if (label === 'Watch') {
+          mainContent.innerHTML = watchScreenHTML;
+        } else if (label === 'Feed' || label === 'Moments') {
+          loadShorts();
+        } else if (label === 'Search') {
+          loadLegal();
+        } else {
+          alert('Aapne ' + label + ' section par click kiya hai!');
+        }
+      });
+    });
+
+    document.querySelectorAll('.nav-item').forEach(nav => {
+      nav.addEventListener('click', (e) => {
+        const navText = nav.querySelector('span').innerText.trim();
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        nav.classList.add('active');
+        
+        if (navText === 'Chats') {
+          e.preventDefault();
+          loadChatList();
+        } else if (navText === 'Home') {
+          e.preventDefault();
+          loadHome();
+        } else if (navText === 'Shorts') {
+          e.preventDefault();
+          loadShorts();
+        } else if (navText === 'Create') {
+          e.preventDefault();
+          loadCreate();
+        } else if (navText === 'Profile') {
+          e.preventDefault();
+          loadProfile();
+        }
+      });
+    });
+  </script>
