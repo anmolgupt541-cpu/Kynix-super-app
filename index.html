@@ -756,7 +756,28 @@
 async function openCamera() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        alert("Camera and Mic permission granted!");
+        
+        let videoBox = document.getElementById('liveCameraView');
+        if (!videoBox) {
+            videoBox = document.createElement('video');
+            videoBox.id = 'liveCameraView';
+            videoBox.autoplay = true;
+            videoBox.playsInline = true;
+            videoBox.style.cssText = "position:fixed; top:20%; left:50%; transform:translateX(-50%); width:300px; height:400px; border-radius:15px; border:3px solid #fff; z-index:9999; background:#000;";
+            document.body.appendChild(videoBox);
+            
+            let closeBtn = document.createElement('button');
+            closeBtn.innerText = "❌ Close Camera";
+            closeBtn.id = 'closeCamBtn';
+            closeBtn.style.cssText = "position:fixed; top:15%; left:50%; transform:translateX(-50%); z-index:10000; padding:5px 10px; background:red; color:white; border:none; border-radius:5px; cursor:pointer;";
+            closeBtn.onclick = function() {
+                stream.getTracks().forEach(track => track.stop());
+                videoBox.remove();
+                closeBtn.remove();
+            };
+            document.body.appendChild(closeBtn);
+        }
+        videoBox.srcObject = stream;
     } catch (err) {
         alert("Please enable Camera & Mic permissions in browser settings.");
     }
