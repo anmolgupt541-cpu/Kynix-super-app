@@ -752,4 +752,22 @@
         }
       });
     });
+  // Camera & Mic Permissions (For Instagram Story & YouTube Shorts)
+async function openCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        alert("Camera and Mic permission granted!");
+    } catch (err) {
+        alert("Please enable Camera & Mic permissions in browser settings.");
+    }
+}
+
+// WhatsApp Call & Direct Video Call Handler
+function makeCall(type, number) {
+    if (type === 'whatsapp') {
+        window.open(`https://wa.me/${number}`, '_blank');
+    } else {
+        openCamera();
+    }
+}
   </script>
